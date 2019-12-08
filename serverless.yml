@@ -1,6 +1,6 @@
 org: genevievecrow
-app: notes-app-api-app
-service: notes-app-2-api
+app: climbs-app-api-app
+service: climbs-app-2-api
 
 # Create an optimized package for our functions
 package:
@@ -16,7 +16,7 @@ custom:
   # commands. Or fallsback to what we have set in the provider section.
   stage: ${opt:stage, self:provider.stage}
   # Set the table name here so we can use it while testing locally
-  tableName: ${self:custom.stage}-notes
+  tableName: ${self:custom.stage}-climbs
 
 provider:
   name: aws
@@ -45,11 +45,11 @@ provider:
       # Restrict our IAM role permissions to
       # the specific table for the stage
       Resource:
-        - "Fn::GetAtt": [ NotesTable, Arn ]
+        - "Fn::GetAtt": [ climbsTable, Arn ]
 
 functions:
   # Defines an HTTP API endpoint that calls the main function in create.js
-  # - path: url path is /notes
+  # - path: url path is /climbs
   # - method: POST request
   # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
   #     domain api call
@@ -58,52 +58,52 @@ functions:
     handler: create.main
     events:
       - http:
-          path: notes
+          path: climbs
           method: post
           cors: true
           authorizer: aws_iam
   get:
     # Defines an HTTP API endpoint that calls the main function in get.js
-    # - path: url path is /notes/{id}
+    # - path: url path is /climbs/{id}
     # - method: GET request
     handler: get.main
     events:
       - http:
-          path: notes/{id}
+          path: climbs/{id}
           method: get
           cors: true
           authorizer: aws_iam
   list:
     # Defines an HTTP API endpoint that calls the main function in list.js
-    # - path: url path is /notes
+    # - path: url path is /climbs
     # - method: GET request
     handler: list.main
     events:
       - http:
-          path: notes
+          path: climbs
           method: get
           cors: true
           authorizer: aws_iam
   update:
     # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /notes/{id}
+    # - path: url path is /climbs/{id}
     # - method: PUT request
     handler: update.main
     events:
       - http:
-          path: notes/{id}
+          path: climbs/{id}
           method: put
           cors: true
           authorizer: aws_iam
 
   delete:
     # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /notes/{id}
+    # - path: url path is /climbs/{id}
     # - method: DELETE request
     handler: delete.main
     events:
       - http:
-          path: notes/{id}
+          path: climbs/{id}
           method: delete
           cors: true
           authorizer: aws_iam
